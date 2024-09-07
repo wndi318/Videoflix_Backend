@@ -8,4 +8,4 @@ class Video(models.Model):
     video_file = models.FileField(upload_to='videos', blank=True, null=True)
 
 def __str__(self):
-    return '[' + self.section.module.title + '] - ' + self.title
+    return self.title
