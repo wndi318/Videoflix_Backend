@@ -1,16 +1,27 @@
 import os
-from .models import Video
+import django_rq
+from .models import Video, Video480p, Video720p
 from .tasks import convert_480p, convert_720p
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
+
 
 @receiver(post_save, sender=Video)
 def video_post_save(sender, instance, created, **kwargs):
     print('Video was saved')
     if created: 
         print('New video created')
-        convert_480p(instance.video_file.path)
-        convert_720p(instance.video_file.path)
+        queue = django_rq.get_queue('default', autocommit=True)
+        queue.enqueue(convert_480p, instance.video_file.path)
+        queue.enqueue(convert_720p, instance.video_file.path)
+
+        video_480p_instance = Video480p(video=instance)
+        video_480p_instance.video_file_480p = instance.video_file.path.replace(".mp4", "_480p.mp4")
+        video_480p_instance.save()
+
+        video_720p_instance = Video720p(video=instance)
+        video_720p_instance.video_file_720p = instance.video_file.path.replace(".mp4", "_720p.mp4")
+        video_720p_instance.save()
 
 @receiver(post_delete, sender=Video)
 def auto_delete_file_on_delete(sender, instance, **kwargs):

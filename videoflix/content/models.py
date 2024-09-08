@@ -7,5 +7,20 @@ class Video(models.Model):
     description = models.CharField(max_length=500)
     video_file = models.FileField(upload_to='videos', blank=True, null=True)
 
-def __str__(self):
-    return self.title
+    def __str__(self):
+        return self.title
+
+class Video480p(models.Model):
+    video = models.OneToOneField(Video, on_delete=models.CASCADE, related_name='video_480p')
+    video_file_480p = models.FileField(upload_to="videos", blank=True, null=True)
+    
+    def __str__(self):
+        return f"{self.video.title}_480p"
+    
+
+class Video720p(models.Model):
+    video = models.OneToOneField(Video, on_delete=models.CASCADE, related_name='video_720p')
+    video_file_720p = models.FileField(upload_to="videos", blank=True, null=True)
+    
+    def __str__(self):
+        return f"{self.video.title}_720p"

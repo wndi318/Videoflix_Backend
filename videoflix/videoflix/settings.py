@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'content.apps.ContentConfig',
-    'debug_toolbar'
+    'debug_toolbar',
+    'django_rq',
 ]
 
 MIDDLEWARE = [
@@ -52,8 +53,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
 ]
+
+RQ_QUEUES = {
+    "default": {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 0,
+        "DEFAULT_TIMEOUT": 360,
+    }
+}
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -64,6 +73,7 @@ CACHES = {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/1",
         "OPTIONS": {
+            "PASSWORD": 'foobared',
             "CLIENT_CLASS": "django_redis.client.DefaultClient"
         },        
         "KEY_PREFIX": "videoflix"   
