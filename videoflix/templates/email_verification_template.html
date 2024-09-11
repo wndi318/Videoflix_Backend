@@ -33,7 +33,7 @@
             line-height: 1.6;
         }
 
-        .messagelink {
+        .activation-link.container {
             width: 100%;
             display: flex;
             align-items: flex-start;
@@ -71,7 +71,7 @@
         <p class="message">Dear {{ user.username }},</p>
         <p class="message">Thank you for registering with <a href="">VIDEOFLIX</a>. To complete your registration and
             verify your email address, please click the link below:</p>
-        <div class="messagelink">
+        <div class="activation-link-container">
             <a class="activate" href="{{ verification_url }}">Activate your account</a>
         </div>
         <p class="message">If you did not create an account with us, please disregard this email.</p>
