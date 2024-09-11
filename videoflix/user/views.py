@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from django.contrib.sites.shortcuts import get_current_site
@@ -90,4 +90,15 @@ class LoginView(ObtainAuthToken):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
 
+    def post(self, request):
+        try:
+            if hasattr(request.user, 'auth_token'):
+                request.user.auth_token.delete()
+                return Response({'message': 'Logged out successfully'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'error': 'No token found for user, user not logged in'}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

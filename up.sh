@@ -3,4 +3,4 @@ git add .
 git commit -m "$*"
 git push
 
-#up "comment"
+#./up.sh "comment"
