@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -57,7 +57,8 @@ class VerifyEmailView(APIView):
         user.email_verification_token = None
         user.save()
 
-        return Response({'message': 'Email successfully verified. You can now log in.'}, status=status.HTTP_200_OK)
+        frontend_login_url = 'http://localhost:4200/log-in'
+        return redirect(frontend_login_url)
     
 
 class LoginView(ObtainAuthToken):
