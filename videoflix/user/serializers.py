@@ -18,7 +18,6 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
 
     def validate(self, data):
-        # Optional: Füge zusätzliche Validierung hinzu, falls erforderlich
         email = data.get('email')
         password = data.get('password')
 
@@ -26,3 +25,16 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError("Email and password are required.")
         
         return data
+    
+class PasswordResetRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    def validate_email(self, value):
+        try:
+            user = CustomUser.objects.get(email=value)
+        except CustomUser.DoesNotExist:
+            raise serializers.ValidationError("There is no user with this email address.")
+        return value
+    
+class PasswordResetConfirmSerializer(serializers.Serializer):
+    new_password = serializers.CharField(write_only=True)

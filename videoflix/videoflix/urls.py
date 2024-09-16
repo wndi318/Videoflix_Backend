@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from debug_toolbar.toolbar import debug_toolbar_urls
-from user.views import LoginView, LogoutView, RegisterView, VerifyEmailView
+from user.views import LoginView, LogoutView, RegisterView, VerifyEmailView, PasswordResetRequestView, PasswordResetConfirmView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,4 +28,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('django-rq/', include('django_rq.urls')),
     path('api/verify-email/<str:token>/', VerifyEmailView.as_view(), name='verify_email'),
+    path('password-reset/', PasswordResetRequestView.as_view(), name='password_reset'),
+    path('reset-password-confirm/<int:user_id>/<str:token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) + debug_toolbar_urls()
