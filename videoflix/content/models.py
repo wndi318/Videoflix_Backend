@@ -12,6 +12,7 @@ class Video(models.Model):
     title = models.CharField(max_length=80)
     description = models.CharField(max_length=500)
     video_file = models.FileField(upload_to='videos', blank=True, null=True)
+    thumbnail = models.FileField(upload_to='thumbnails', blank=True, null=True)
     group = models.CharField(max_length=20, choices=GROUP_CHOICES, default="documentary")
     new_on_videoflix = models.BooleanField(default=True)
 
