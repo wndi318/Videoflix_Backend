@@ -1,3 +1,4 @@
 /env
 .env
 videoflix/db.sqlite3
+videoflix/media
