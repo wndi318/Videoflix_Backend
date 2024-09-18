@@ -1,5 +1,6 @@
 import subprocess
 import os
+from django.conf import settings
 
 def convert_480p(source):
     target = source.replace(".mp4", "_480p.mp4")
@@ -24,9 +25,18 @@ def convert_1080p(source):
 
 
 def create_thumbnail(source):
-    target = os.path.join(os.path.dirname(source), "thumbnails", os.path.basename(source).replace(".mp4", "_thumbnail.jpg"))
+    video_dir = os.path.dirname(source)
+    thumbnails_dir = os.path.join(video_dir, "thumbnails")
+    if not os.path.exists(thumbnails_dir):
+        os.makedirs(thumbnails_dir)
+    target = os.path.join(thumbnails_dir, os.path.basename(source).replace(".mp4", "_thumbnail.jpg"))
     cmd = [
         'ffmpeg', '-i', source, '-ss', '00:00:01.000', '-vframes', '1', target
     ]
-    subprocess.run(cmd, check=True)
-    print(f"Thumbnail created: {target}")
+    try:
+        subprocess.run(cmd, check=True)
+        print(f"Thumbnail created: {target}")
+    except subprocess.CalledProcessError as e:
+        print(f"Error creating thumbnail: {e}")
+    relative_path = os.path.relpath(target, settings.MEDIA_ROOT)
+    return relative_path

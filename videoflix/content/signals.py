@@ -28,9 +28,9 @@ def video_post_save(sender, instance, created, **kwargs):
         video_1080p_instance = Video1080p(video=instance)
         video_1080p_instance.video_file_1080p = instance.video_file.path.replace(".mp4", "_1080p.mp4")
         video_1080p_instance.save()
-
-        thumbnail_path = instance.video_file.path.replace(".mp4", "_thumbnail.jpg")
-        instance.thumbnail.name = thumbnail_path.replace("videos", "thumbnails")
+        
+        thumbnail_path = create_thumbnail(instance.video_file.path)
+        instance.thumbnail = thumbnail_path
         instance.save()
 
 def auto_delete_file_on_delete(sender, instance, **kwargs):
