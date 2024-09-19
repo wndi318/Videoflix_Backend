@@ -10,10 +10,22 @@ class VideoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Video
-        fields = ['id', 'title', 'description', 'video_file', 'thumbnail_url', 'group', 'new_on_videoflix', 'created_at', 'video_480p', 'video_720p', 'video_1080p']
+        fields = [
+            'id', 
+            'title', 
+            'description', 
+            'video_file', 
+            'thumbnail_url', 
+            'group', 
+            'new_on_videoflix', 
+            'created_at', 
+            'video_480p', 
+            'video_720p', 
+            'video_1080p'
+        ]
 
     def get_thumbnail_url(self, obj):
         request = self.context.get('request')
-        if obj.thumbnail:
+        if request and obj.thumbnail:
             return request.build_absolute_uri(obj.thumbnail.url)
         return None

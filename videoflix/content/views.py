@@ -7,6 +7,7 @@ from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 from .models import Video
 from .serializers import VideoSerializer
+from rest_framework import status
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 
 CACHE_TTL = getattr(settings, "CACHE_TTL", DEFAULT_TIMEOUT)
@@ -23,11 +24,11 @@ class VideoListView(APIView):
 class VideoDetailView(APIView):
     permission_classes = [AllowAny]
 
-    @method_decorator(cache_page(CACHE_TTL))
     def get(self, request, pk, format=None):
         try:
             video = Video.objects.get(pk=pk)
-            serializer = VideoSerializer(video)
-            return Response(serializer.data)
         except Video.DoesNotExist:
-            return Response({"error": "Video not found"}, status=404)
+            return Response({'error': 'Video not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = VideoSerializer(video, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
