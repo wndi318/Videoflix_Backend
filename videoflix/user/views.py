@@ -34,7 +34,7 @@ class RegisterView(APIView):
             msg = EmailMultiAlternatives(
                 subject=' Verify your email address',
                 body = text_content,
-                from_email ='kontakt@steffen-winter.org',
+                from_email ='info@videoflix.steffen-winter.org',
                 to = [user.email]
             )
             msg.attach_alternative(html_content, "text/html")
