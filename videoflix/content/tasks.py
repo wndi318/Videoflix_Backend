@@ -25,8 +25,7 @@ def convert_1080p(source):
 
 
 def create_thumbnail(source):
-    video_dir = os.path.dirname(source)
-    thumbnails_dir = os.path.join(video_dir, "thumbnails")
+    thumbnails_dir = os.path.join(settings.MEDIA_ROOT, 'thumbnails')
     if not os.path.exists(thumbnails_dir):
         os.makedirs(thumbnails_dir)
     target = os.path.join(thumbnails_dir, os.path.basename(source).replace(".mp4", "_thumbnail.jpg"))
