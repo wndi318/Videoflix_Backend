@@ -1,29 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complete your registration</title>
-</head>
-
 <body style="font-family: Roboto, sans-serif; max-width: 100%; max-height: 100vh; margin: 0 auto; padding: 64px; border: none; overflow: hidden;">
 
     <div class="mail" style="display: flex; flex-direction: column;">
         <div class="logo" style="text-align: center; margin-bottom: 20px; font-size: 50px;">
-            <img src="http://35.242.129.233/logo.png" alt="VIDEOFLIX" style="height: 40px;"> <!-- Passe die URL deines Servers an -->
+            <img src="http://yourserver.com/static/logo.jpg" alt="VIDEOFLIX" style="height: 40px;" />
         </div>
+        
         <p class="message" style="font-size: 16px; line-height: 1.6;">Dear {{ user.username }},</p>
-        <p class="message" style="font-size: 16px; line-height: 1.6;">Thank you for registering with <a href="" style="text-decoration: none; color: #2E3EDF; cursor: pointer;">VIDEOFLIX</a>. To complete your registration and verify your email address, please click the link below:</p>
-
-        <div class="activation-link-container" style="width: 100%; display: flex; justify-content: center; font-size: 16px; line-height: 1.6; margin-top: 20px; margin-bottom: 20px;">
-            <a class="activate" href="{{ verification_url }}" style="border-radius: 40px; padding: 12px 24px; cursor: pointer; background-color: #2E3EDF; color: white; text-decoration: none;">Activate your account</a>
+        
+        <p class="message" style="font-size: 16px; line-height: 1.6;">Thank you for registering with <a href="" style="text-decoration: none; color: #2E3EDF;">VIDEOFLIX</a>. To complete your registration and verify your email address, please click the link below:</p>
+        
+        <div class="activation-link-container" style="width: 100%; display: flex; align-items: flex-start; font-size: 16px; line-height: 1.6;">
+            <a class="activate" href="{{ verification_url }}" style="border-radius: 40px; padding: 12px 24px; cursor: pointer; gap: 10px; background-color: #2E3EDF; color: white; text-decoration: none;">Activate your account</a>
         </div>
-
+        
         <p class="message" style="font-size: 16px; line-height: 1.6;">If you did not create an account with us, please disregard this email.</p>
+        
         <p class="message" style="font-size: 16px; line-height: 1.6;">Best regards,<br>Your VIDEOFLIX Team</p>
     </div>
 
 </body>
-
 </html>
