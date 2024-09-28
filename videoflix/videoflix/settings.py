@@ -76,7 +76,7 @@ RQ_QUEUES = {
         'PORT': 6379,
         'DB': 0,
         'PASSWORD': env('RQ_PASSWORD'),
-        "DEFAULT_TIMEOUT": 360,
+        "DEFAULT_TIMEOUT": 3600,
     }
 }
 
