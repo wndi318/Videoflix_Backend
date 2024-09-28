@@ -5,6 +5,7 @@ from .tasks import convert_480p, convert_720p, convert_1080p, create_thumbnail
 from django.conf import settings
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
+from django.core.cache import cache
 
 
 @receiver(post_save, sender=Video)
@@ -38,6 +39,7 @@ def video_post_save(sender, instance, created, **kwargs):
         thumbnail_path = os.path.join('thumbnails', base_filename.replace(".mp4", "_thumbnail.jpg"))
         instance.thumbnail.name = thumbnail_path
         instance.save()
+        cache.clear()
 
 @receiver(post_delete, sender=Video)
 def auto_delete_file_on_delete(sender, instance, **kwargs):
@@ -46,6 +48,7 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
     """
     if instance.video_file and os.path.isfile(instance.video_file.path):
         os.remove(instance.video_file.path)
+        cache.clear()
 
     for resolution in ['_480p.mp4', '_720p.mp4', '_1080p.mp4', '_thumbnail.jpg']:
         file_path = instance.video_file.path.replace(".mp4", resolution)
