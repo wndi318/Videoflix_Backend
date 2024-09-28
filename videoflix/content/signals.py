@@ -7,6 +7,8 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 from django.core.cache import cache
 
+def clear_cache():
+    cache.clear()
 
 @receiver(post_save, sender=Video)
 def video_post_save(sender, instance, created, **kwargs):
@@ -23,7 +25,6 @@ def video_post_save(sender, instance, created, **kwargs):
         queue.enqueue(convert_1080p, instance.video_file.path)
         queue.enqueue(create_thumbnail, instance.video_file.path)
 
-
         video_480p_instance = Video480p(video=instance)
         video_480p_instance.video_file_480p = video_480p_path
         video_480p_instance.save()
@@ -39,18 +40,20 @@ def video_post_save(sender, instance, created, **kwargs):
         thumbnail_path = os.path.join('thumbnails', base_filename.replace(".mp4", "_thumbnail.jpg"))
         instance.thumbnail.name = thumbnail_path
         instance.save()
-        cache.clear()
+
+        clear_cache()
 
 @receiver(post_delete, sender=Video)
 def auto_delete_file_on_delete(sender, instance, **kwargs):
     """
-    Deletes video file, converted files, and thumbnail when the Video object is deleted.
+    Löscht die Video-Datei, konvertierte Dateien und das Thumbnail, wenn das Video-Objekt gelöscht wird.
     """
     if instance.video_file and os.path.isfile(instance.video_file.path):
         os.remove(instance.video_file.path)
-        cache.clear()
 
     for resolution in ['_480p.mp4', '_720p.mp4', '_1080p.mp4', '_thumbnail.jpg']:
         file_path = instance.video_file.path.replace(".mp4", resolution)
         if os.path.isfile(file_path):
             os.remove(file_path)
+    
+    clear_cache()
