@@ -30,7 +30,7 @@ SECRET_KEY = '0ku8t4%*tt8!--5_a3aui-n$-=2m^1rssdqn5cvrowwokbi)o%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '35.242.129.233']
+ALLOWED_HOSTS = ['127.0.0.1', '35.242.129.233', 'videoflix-backend.steffen-winter.org']
 
 CACHE_TTL = 60 * 15
 
@@ -68,6 +68,8 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:4200',
+    'http://videoflix-backend.steffen-winter.org',
+    'https://videoflix.steffen-winter.org',
 ]
 
 RQ_QUEUES = {
