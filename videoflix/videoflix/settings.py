@@ -28,7 +28,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = '0ku8t4%*tt8!--5_a3aui-n$-=2m^1rssdqn5cvrowwokbi)o%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', '35.242.129.233', 'videoflix-backend.steffen-winter.org']
 
