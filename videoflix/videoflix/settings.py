@@ -68,7 +68,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:4200',
-    'http://videoflix-backend.steffen-winter.org',
+    'https://videoflix-backend.steffen-winter.org',
     'https://videoflix.steffen-winter.org',
 ]
 
