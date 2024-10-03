@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['127.0.0.1', '35.242.129.233', 'videoflix-backend.steffen-winte
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+
 CACHE_TTL = 60 * 15
 
 # Application definition

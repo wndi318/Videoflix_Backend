@@ -23,9 +23,8 @@ class RegisterView(APIView):
         if serializer.is_valid():
             user = serializer.save()
 
-            current_site = get_current_site(request)
             verification_url = reverse('verify_email', kwargs={'token': user.email_verification_token})
-            full_verification_url = f"http://{current_site.domain}{verification_url}"
+            full_verification_url = f"https://videoflix-backend.steffen-winter.org{verification_url}"
 
             html_content = render_to_string('email_verification_template.html', {'user': user, 'verification_url': full_verification_url})
             text_content = strip_tags(html_content)
@@ -58,7 +57,7 @@ class VerifyEmailView(APIView):
         user.email_verification_token = None
         user.save()
 
-        frontend_login_url = 'http://localhost:4200/log-in'
+        frontend_login_url = 'https://videoflix.steffen-winter.org/log-in'
         return redirect(frontend_login_url)
     
 
@@ -114,7 +113,7 @@ class PasswordResetRequestView(APIView):
             email = serializer.validated_data['email']
             user = CustomUser.objects.get(email=email)
             token = default_token_generator.make_token(user)
-            reset_url = f"http://localhost:4200/reset-password/{user.pk}/{token}/"
+            reset_url = f"http://videoflix.steffen-winter.org/reset-password/{user.pk}/{token}/"
 
             html_content = render_to_string('email_password_reset.html', {'verification_url': reset_url})
             text_content = f"Please reset your password using the following link: {reset_url}"
@@ -122,7 +121,7 @@ class PasswordResetRequestView(APIView):
             msg = EmailMultiAlternatives(
                 subject="Reset your password",
                 body=text_content,
-                from_email='kontakt@steffen-winter.org',
+                from_email ='info@videoflix.steffen-winter.org',
                 to=[user.email]
             )
             msg.attach_alternative(html_content, "text/html")
